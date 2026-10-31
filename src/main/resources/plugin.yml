@@ -1,0 +1,23 @@
+name: VanillaFishingExpansion
+version: ${project.version}
+main: com.kitsunetech.fishing.VanillaFishingExpansion
+api-version: '26.1.2'
+author: KitsuneTech
+description: A polished fishing expansion with hidden leveling, biome-specific loot, and ultra-rare custom items.
+
+commands:
+  fishingstats:
+    description: View your hidden fishing statistics (admin only)
+    usage: /<command> [player]
+    permission: vanillafishing.stats
+  fishtop:
+    description: View the fishing leaderboard
+    usage: /<command>
+  fishjournal:
+    description: View your fish collection progress
+    usage: /<command>
+
+permissions:
+  vanillafishing.stats:
+    description: Allows viewing fishing statistics
+    default: op

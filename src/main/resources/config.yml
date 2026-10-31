@@ -1,0 +1,120 @@
+# VanillaFishingExpansion Configuration
+
+# ═══════════════════════════════════════════════════════════════
+# XP & LEVELING
+# ═══════════════════════════════════════════════════════════════
+leveling:
+  # Base fish required for level 1
+  base-fish-required: 10
+  # Compound scaling per level (1.025 = 2.5% more per level)
+  scaling-multiplier: 1.025
+  # Maximum fishing level
+  max-level: 100
+
+# ═══════════════════════════════════════════════════════════════
+# DROP CHANCES (Base percentages, scaled by level)
+# ═══════════════════════════════════════════════════════════════
+drops:
+  ultra-rare-base: 0.0001  # 0.01%
+  rare-base: 0.001         # 0.1%
+  uncommon-base: 0.02      # 2%
+  common-base: 0.1         # 10%
+
+# ═══════════════════════════════════════════════════════════════
+# FEATURES TOGGLE
+# ═══════════════════════════════════════════════════════════════
+features:
+  # Elder Fisherman particles for players who consumed Neptune's Ledger
+  elder-particles: true
+  
+  # Fishing streak system
+  streak-system: true
+  
+  # Angler's Rod (custom fishing rod that can be caught)
+  anglers-rod: true
+  
+  # Fish journal collection tracking
+  fish-journal: true
+  
+  # Leaderboard system
+  leaderboard: true
+  
+  # Nether lava fishing (requires level 20)
+  nether-fishing: true
+  nether-fishing-level: 20
+
+# ═══════════════════════════════════════════════════════════════
+# STREAK SYSTEM
+# ═══════════════════════════════════════════════════════════════
+streak:
+  # Seconds before streak resets (between catches)
+  timeout-seconds: 30
+  
+  # Catches required to enter "Fishing Frenzy" mode
+  frenzy-threshold: 10
+  
+  # XP multiplier during Fishing Frenzy
+  frenzy-xp-multiplier: 2.0
+  
+  # Loot quality bonus during Fishing Frenzy
+  frenzy-loot-bonus: 1.5
+
+# ═══════════════════════════════════════════════════════════════
+# SEASONAL EVENTS
+# ═══════════════════════════════════════════════════════════════
+events:
+  # Rain/Storm loot quality bonus
+  rain-bonus: 1.10
+  
+  # Double XP events (set days of week: MONDAY, TUESDAY, etc.)
+  double-xp-days:
+    - SATURDAY
+    - SUNDAY
+  
+  # Blood Moon fishing (during night with full moon)
+  blood-moon:
+    enabled: true
+    loot-bonus: 2.0
+    # Special drops during Blood Moon
+    drops:
+      - WITHER_SKELETON_SKULL
+      - GHAST_TEAR
+      - NETHER_STAR
+
+# ═══════════════════════════════════════════════════════════════
+# LEADERBOARD
+# ═══════════════════════════════════════════════════════════════
+leaderboard:
+  # Number of players to show in /fishtop
+  top-count: 10
+  
+  # Broadcast when someone becomes #1
+  broadcast-new-leader: true
+
+# ═══════════════════════════════════════════════════════════════
+# FISH JOURNAL
+# ═══════════════════════════════════════════════════════════════
+journal:
+  # Bonus XP multiplier for completing a biome collection
+  biome-complete-bonus: 1.25
+  
+  # Bonus for completing the entire journal
+  full-complete-bonus: 1.50
+
+# ═══════════════════════════════════════════════════════════════
+# CUSTOM ITEMS
+# ═══════════════════════════════════════════════════════════════
+items:
+  anglers-rod:
+    # Catch rate bonus (0.05 = +5%)
+    catch-bonus: 0.05
+    # Base drop chance
+    drop-chance: 0.002
+
+# ═══════════════════════════════════════════════════════════════
+# SERVER LOGGING
+# ═══════════════════════════════════════════════════════════════
+logging:
+  level-ups: true
+  rare-catches: true
+  frenzy-activations: false
