@@ -40,8 +40,12 @@ public class FishingListener implements Listener {
         this.random = new Random();
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerFish(PlayerFishEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
+
         Player player = event.getPlayer();
         FisherDataManager dataManager = plugin.getFisherDataManager();
         FisherData data = dataManager.getFisherData(player.getUniqueId());

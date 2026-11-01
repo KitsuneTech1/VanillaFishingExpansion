@@ -30,8 +30,12 @@ public class ItemInteractionListener implements Listener {
         this.random = new Random();
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerInteract(PlayerInteractEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
+
         if (event.getHand() != EquipmentSlot.HAND)
             return;
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)

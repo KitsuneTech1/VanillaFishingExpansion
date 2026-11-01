@@ -8,6 +8,7 @@ import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -109,8 +110,11 @@ public class ConfigManager {
         doubleXpDays = new HashSet<>();
         List<String> dayNames = config.getStringList("events.double-xp-days");
         for (String day : dayNames) {
+            if (day == null) {
+                continue;
+            }
             try {
-                doubleXpDays.add(DayOfWeek.valueOf(day.toUpperCase()));
+                doubleXpDays.add(DayOfWeek.valueOf(day.trim().toUpperCase(Locale.ROOT)));
             } catch (IllegalArgumentException ignored) {
                 // Not a valid day name in config.yml, skip it
             }
@@ -119,15 +123,18 @@ public class ConfigManager {
         bloodMoonBonus = config.getDouble("events.blood-moon.loot-bonus", 2.0);
         bloodMoonDrops = new ArrayList<>();
         for (String mat : config.getStringList("events.blood-moon.drops")) {
+            if (mat == null) {
+                continue;
+            }
             try {
-                bloodMoonDrops.add(Material.valueOf(mat.toUpperCase()));
+                bloodMoonDrops.add(Material.valueOf(mat.trim().toUpperCase(Locale.ROOT)));
             } catch (IllegalArgumentException ignored) {
                 // Not a valid material name in config.yml, skip it
             }
         }
 
         // Leaderboard
-        topCount = config.getInt("leaderboard.top-count", 10);
+        topCount = Math.max(0, config.getInt("leaderboard.top-count", 10));
         broadcastNewLeader = config.getBoolean("leaderboard.broadcast-new-leader", true);
 
         // Journal

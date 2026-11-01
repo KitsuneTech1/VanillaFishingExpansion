@@ -71,7 +71,7 @@ public class FishJournal {
      * Record a catch in the player's journal.
      */
     public void recordCatch(UUID playerId, Material material, String biomeGroup) {
-        if (!plugin.getConfigManager().isFishJournalEnabled())
+        if (!plugin.getConfigManager().isFishJournalEnabled() || material == null)
             return;
 
         JournalData journal = getJournal(playerId);
@@ -146,6 +146,10 @@ public class FishJournal {
      * Get biome group name from a Biome.
      */
     public static String getBiomeGroup(Biome biome) {
+        if (biome == null) {
+            return "other";
+        }
+
         String name = biome.name().toLowerCase();
         if (name.contains("ocean") || name.contains("beach"))
             return "ocean";
@@ -155,14 +159,14 @@ public class FishJournal {
             return "jungle";
         if (name.contains("desert"))
             return "desert";
-        if (name.contains("forest"))
-            return "forest";
-        if (name.contains("taiga") || name.contains("snowy"))
-            return "taiga";
         if (name.contains("nether") || name.contains("crimson") || name.contains("warped"))
             return "nether";
         if (name.contains("end"))
             return "end";
+        if (name.contains("forest"))
+            return "forest";
+        if (name.contains("taiga") || name.contains("snowy"))
+            return "taiga";
         return "other";
     }
 
@@ -170,7 +174,7 @@ public class FishJournal {
      * Get all available biome groups.
      */
     public static Set<String> getAllBiomeGroups() {
-        return BIOME_COLLECTIONS.keySet();
+        return Collections.unmodifiableSet(BIOME_COLLECTIONS.keySet());
     }
 
     private JournalData loadJournal(UUID playerId) {

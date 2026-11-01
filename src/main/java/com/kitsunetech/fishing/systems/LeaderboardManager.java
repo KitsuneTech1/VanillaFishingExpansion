@@ -67,8 +67,11 @@ public class LeaderboardManager {
      * Get the top N players.
      */
     public List<LeaderboardEntry> getTop(int count) {
+        if (count <= 0 || sortedLeaderboard.isEmpty()) {
+            return List.of();
+        }
         int limit = Math.min(count, sortedLeaderboard.size());
-        return sortedLeaderboard.subList(0, limit);
+        return List.copyOf(sortedLeaderboard.subList(0, limit));
     }
 
     /**
@@ -87,8 +90,8 @@ public class LeaderboardManager {
         sortedLeaderboard = new ArrayList<>(entries.values());
         sortedLeaderboard.sort((a, b) -> {
             if (b.level != a.level)
-                return b.level - a.level;
-            return b.totalFish - a.totalFish;
+                return Integer.compare(b.level, a.level);
+            return Integer.compare(b.totalFish, a.totalFish);
         });
     }
 

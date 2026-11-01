@@ -17,7 +17,7 @@ VanillaFishingExpansion adds a silent fishing progression system on top of norma
 - Hidden fishing levels (up to 100) that scale drop chances the more a player fishes
 - Biome-aware loot table with common, uncommon, rare, and ultra-rare tiers
 - Fishing streak system with a "Fishing Frenzy" bonus at 10 catches in a row
-- Fish journal that tracks collection progress per player, with completion bonuses
+- Fish journal that tracks collection progress per player
 - Leaderboard (`/fishtop`) with optional broadcast when a new #1 is set
 - Seasonal events: rain bonus, double XP days, and Blood Moon loot (wither skulls, ghast tears, nether stars)
 - Angler's Rod: a catchable custom rod with a small catch-rate bonus
@@ -48,9 +48,8 @@ Key options in `config.yml`:
 - `streak.timeout-seconds`, `streak.frenzy-threshold`, `streak.frenzy-xp-multiplier`, `streak.frenzy-loot-bonus`: tune the streak/frenzy system
 - `events.rain-bonus`, `events.double-xp-days`, `events.blood-moon`: seasonal loot and XP bonuses
 - `leaderboard.top-count`, `leaderboard.broadcast-new-leader`: leaderboard display settings
-- `journal.biome-complete-bonus`, `journal.full-complete-bonus`: fish journal completion bonuses
 - `items.anglers-rod.catch-bonus`, `items.anglers-rod.drop-chance`: Angler's Rod tuning
-- `logging.*`: server console logging toggles for level ups, rare catches, and frenzy activations
+- `logging.frenzy-activations`: server console logging for frenzy activations
 
 ## Install
 

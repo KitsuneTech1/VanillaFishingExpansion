@@ -118,6 +118,21 @@ public class LootManager {
 
         String biomeName = biome.name().toLowerCase();
 
+        // Nether and End fishing are gated by world environment. Check these
+        // before name-based biome groups because CRIMSON_FOREST and WARPED_FOREST
+        // also contain the word "forest".
+        if (world.getEnvironment() == World.Environment.NETHER) {
+            if (plugin.getConfigManager().isNetherFishingEnabled()
+                    && level >= plugin.getConfigManager().getNetherFishingLevel()) {
+                return rollNetherLoot(level);
+            }
+            return null;
+        }
+
+        if (world.getEnvironment() == World.Environment.THE_END) {
+            return rollEndLoot(level);
+        }
+
         // Ocean biomes
         if (biomeName.contains("ocean") || biomeName.contains("beach")) {
             return rollOceanLoot(level, biomeName.contains("deep"));
@@ -166,18 +181,6 @@ public class LootManager {
         // Cherry Grove
         if (biomeName.contains("cherry")) {
             return rollCherryLoot();
-        }
-
-        // Nether (if lava fishing is unlocked at level 20+)
-        if (plugin.getConfigManager().isNetherFishingEnabled()
-                && world.getEnvironment() == World.Environment.NETHER
-                && level >= plugin.getConfigManager().getNetherFishingLevel()) {
-            return rollNetherLoot(level);
-        }
-
-        // End
-        if (world.getEnvironment() == World.Environment.THE_END) {
-            return rollEndLoot(level);
         }
 
         return null;
