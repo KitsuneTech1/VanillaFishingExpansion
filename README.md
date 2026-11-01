@@ -1,16 +1,18 @@
 <p align="center"><a href="https://kitsunetechnologies.org/work"><img src="https://raw.githubusercontent.com/KitsuneTech1/.github/main/assets/kitsune-banner.svg" alt="Built by Kitsune Technologies" width="760"></a></p>
 
-# VanillaFishingExpansion
+# Angler's Almanac
 
-A vanilla-friendly fishing overhaul with hidden leveling, biome loot, streaks, and ultra-rare custom drops.
+Paper plugin with vanilla-friendly fishing overhaul, hidden leveling, and improved loot diversity.
+
+(VanillaFishingExpansion)
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Paper](https://img.shields.io/badge/paper-26.1.2-brightgreen.svg)
 ![Java](https://img.shields.io/badge/java-25-orange.svg)
 
-## What it does
+## Overview
 
-VanillaFishingExpansion adds a silent fishing progression system on top of normal Minecraft fishing. Players level up without a visible XP bar, unlock rarer loot as they go, and can chase streaks, journal completion, and seasonal events like Blood Moon fishing. Nothing here needs a resource pack or new items outside of a couple of craftable shard rewards.
+Adds a silent fishing progression system on top of normal Minecraft fishing. Players gain hidden levels (1-100) that unlock rarer loot, chase streaks and journal completion, and participate in seasonal events like Blood Moon fishing. All features are vanilla-friendly - no resource packs or new items except for craftable shard rewards.
 
 ## Features
 
@@ -51,7 +53,7 @@ Key options in `config.yml`:
 - `items.anglers-rod.catch-bonus`, `items.anglers-rod.drop-chance`: Angler's Rod tuning
 - `logging.frenzy-activations`: server console logging for frenzy activations
 
-## Install
+## Quick Start
 
 ### What you need
 
@@ -75,8 +77,8 @@ Go to the [latest release](https://github.com/KitsuneTech1/VanillaFishingExpansi
 Then, for both options:
 
 - Drop the jar into your server's `plugins` folder.
-- Restart the server completely (not `/reload`, a real restart).
-- Verify it loaded by running `/fishtop` in game or console and confirming you see a leaderboard message instead of an "unknown command" error.
+- Restart the server completely (not `/reload`, a full restart).
+- Check that it loaded by running `/fishtop` in game or console. You should see a leaderboard message, not an "unknown command" error.
 
 **It worked if** `/fishtop` responds with a leaderboard (even an empty one) and the console log shows VanillaFishingExpansion enabling with no errors during startup.
 
