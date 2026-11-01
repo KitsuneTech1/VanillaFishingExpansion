@@ -5,8 +5,8 @@
 A vanilla-friendly fishing overhaul with hidden leveling, biome loot, streaks, and ultra-rare custom drops.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-![Paper](https://img.shields.io/badge/paper-1.21.x-brightgreen.svg)
-![Java](https://img.shields.io/badge/java-21-orange.svg)
+![Paper](https://img.shields.io/badge/paper-26.1.2-brightgreen.svg)
+![Java](https://img.shields.io/badge/java-25-orange.svg)
 
 ## What it does
 
@@ -56,8 +56,8 @@ Key options in `config.yml`:
 
 ### What you need
 
-- A Spigot or Paper server matching api-version 1.21 (Paper recommended). Download it from https://papermc.io/downloads
-- Java 21 or newer. Download it from https://adoptium.net. Check what you have with `java -version` in a terminal.
+- A Paper server matching api-version 26.1.2 or newer. Download it from https://papermc.io/downloads
+- Java 25 or newer. Download it from https://adoptium.net. Check what you have with `java -version` in a terminal.
 - This plugin will not work on vanilla Minecraft or on Realms. You need a Spigot/Paper server you host yourself.
 
 ### Step by step
@@ -68,10 +68,10 @@ Go to the [latest release](https://github.com/KitsuneTech1/VanillaFishingExpansi
 
 **Option B: build from source**
 
-1. Install a JDK 21+ from https://adoptium.net if you don't have one.
+1. Install a JDK 25+ from https://adoptium.net if you don't have one.
 2. Clone the repo (`git clone https://github.com/KitsuneTech1/VanillaFishingExpansion.git`) or click "Code > Download ZIP" on GitHub and unzip it.
-3. From the project folder, run `mvn package` (or `./gradlew build` if it's a gradle project, but this one is maven).
-4. The built jar will be in `target\VanillaFishingExpansion-2.0.0.jar`.
+3. From the project folder, run `mvn clean package`.
+4. The built jar will be in `target/VanillaFishingExpansion-2.0.0.jar`.
 
 Then, for both options:
 
@@ -83,8 +83,8 @@ Then, for both options:
 
 **Troubleshooting:**
 
-- Console says "Unsupported API version" or the plugin won't load: your server jar is older than Paper/Spigot 1.21. Update your server first.
-- Command shows "Unknown command": the plugin didn't load. Check `plugins/` for the jar and look at the startup log for errors, and confirm you're running Java 21+.
+- Console says "Unsupported API version" or the plugin won't load: your server is older than Paper 26.1.2. Update your server first.
+- Command shows "Unknown command": the plugin didn't load. Check `plugins/` for the jar and look at the startup log for errors, and confirm you're running Java 25+.
 - "You do not have permission" on `/fishingstats`: that command defaults to op only. Grant `vanillafishing.stats` to the player or run it as an op.
 
 ## Build

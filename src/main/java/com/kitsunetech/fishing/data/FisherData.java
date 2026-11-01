@@ -17,18 +17,21 @@ public class FisherData {
     private double permanentLuckBonus; // From Neptune's Ledger / Angler's Almanac
     private boolean hasConsumedLedger; // Elder Fisherman particles unlock
 
+    private final int baseFishRequired;
+    private final double scalingMultiplier;
+    private final int maxLevel;
+
     public FisherData(UUID playerId) {
-        this.playerId = playerId;
-        this.level = 1;
-        this.totalFishCaught = 0;
-        this.fishForCurrentLevel = 0;
-        this.permanentSpeedBonus = 0.0;
-        this.permanentLuckBonus = 0.0;
-        this.hasConsumedLedger = false;
+        this(playerId, 1, 0, 0, 0.0, 0.0, false, 10, 1.025, 100);
+    }
+
+    public FisherData(UUID playerId, int baseFishRequired, double scalingMultiplier, int maxLevel) {
+        this(playerId, 1, 0, 0, 0.0, 0.0, false, baseFishRequired, scalingMultiplier, maxLevel);
     }
 
     public FisherData(UUID playerId, int level, int totalFishCaught, int fishForCurrentLevel,
-            double permanentSpeedBonus, double permanentLuckBonus, boolean hasConsumedLedger) {
+            double permanentSpeedBonus, double permanentLuckBonus, boolean hasConsumedLedger,
+            int baseFishRequired, double scalingMultiplier, int maxLevel) {
         this.playerId = playerId;
         this.level = level;
         this.totalFishCaught = totalFishCaught;
@@ -36,6 +39,15 @@ public class FisherData {
         this.permanentSpeedBonus = permanentSpeedBonus;
         this.permanentLuckBonus = permanentLuckBonus;
         this.hasConsumedLedger = hasConsumedLedger;
+        this.baseFishRequired = Math.max(1, baseFishRequired);
+        this.scalingMultiplier = Math.max(0.0, scalingMultiplier);
+        this.maxLevel = Math.max(1, maxLevel);
+    }
+
+    public FisherData(UUID playerId, int level, int totalFishCaught, int fishForCurrentLevel,
+            double permanentSpeedBonus, double permanentLuckBonus, boolean hasConsumedLedger) {
+        this(playerId, level, totalFishCaught, fishForCurrentLevel, permanentSpeedBonus, permanentLuckBonus,
+                hasConsumedLedger, 10, 1.025, 100);
     }
 
     /**
@@ -46,6 +58,12 @@ public class FisherData {
         if (level <= 1)
             return 10;
         return (int) Math.ceil(10 * Math.pow(1.025, level - 1));
+    }
+
+    public int getFishRequiredForLevel() {
+        if (level <= 1)
+            return baseFishRequired;
+        return (int) Math.ceil(baseFishRequired * Math.pow(scalingMultiplier, level - 1));
     }
 
     /**
@@ -66,8 +84,8 @@ public class FisherData {
         totalFishCaught++;
         fishForCurrentLevel++;
 
-        int required = getFishRequiredForLevel(level);
-        if (fishForCurrentLevel >= required && level < 100) {
+        int required = getFishRequiredForLevel();
+        if (fishForCurrentLevel >= required && level < maxLevel) {
             level++;
             fishForCurrentLevel = 0;
             return true; // Silent level up
@@ -80,7 +98,7 @@ public class FisherData {
      * Level 1 = 1.0, Level 100 = ~11.8x
      */
     public double getQualityMultiplier() {
-        return Math.pow(1.025, level - 1);
+        return Math.pow(scalingMultiplier, level - 1);
     }
 
     /**
@@ -141,6 +159,10 @@ public class FisherData {
 
     public boolean hasConsumedLedger() {
         return hasConsumedLedger;
+    }
+
+    public int getMaxLevel() {
+        return maxLevel;
     }
 
     public void setConsumedLedger(boolean consumed) {

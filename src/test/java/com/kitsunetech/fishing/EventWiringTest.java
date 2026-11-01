@@ -48,4 +48,13 @@ class EventWiringTest extends FishingTestBase {
         setConfig("events.double-xp-days", Collections.emptyList());
         assertEquals(1.0, plugin.getEventManager().getXpMultiplier(player), 0.0001);
     }
+
+    @Test
+    @DisplayName("rain uses the configured loot multiplier once")
+    void rainUsesConfiguredLootMultiplier() {
+        setConfig("events.rain-bonus", 1.35);
+        world.setStorm(true);
+
+        assertEquals(1.35, plugin.getEventManager().getLootMultiplier(player), 0.0001);
+    }
 }

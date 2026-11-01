@@ -19,12 +19,6 @@ public class LootManager {
     private final VanillaFishingExpansion plugin;
     private final Random random;
 
-    // Base drop chances (modified by level)
-    private static final double ULTRA_RARE_BASE = 0.0001; // 0.01%
-    private static final double RARE_BASE = 0.001; // 0.1%
-    private static final double UNCOMMON_BASE = 0.02; // 2%
-    private static final double COMMON_BASE = 0.1; // 10%
-
     public LootManager(VanillaFishingExpansion plugin) {
         this.plugin = plugin;
         this.random = new Random();
@@ -48,11 +42,10 @@ public class LootManager {
         double qualityMultiplier = data.getQualityMultiplier() * extraQualityMultiplier;
         World world = player.getWorld();
         Biome biome = player.getLocation().getBlock().getBiome();
-        boolean isRaining = world.hasStorm();
 
-        // Weather bonus: +10% during rain/storms
-        if (isRaining) {
-            qualityMultiplier *= 1.10;
+        ItemStack bloodMoonLoot = plugin.getEventManager().rollBloodMoonDrop(player);
+        if (bloodMoonLoot != null) {
+            return bloodMoonLoot;
         }
 
         // Roll for custom items (rarest first)
@@ -83,7 +76,8 @@ public class LootManager {
         double roll = random.nextDouble();
 
         // Ultra-Rares (available at any level, scales heavily)
-        double ultraRareChance = ULTRA_RARE_BASE * qualityMultiplier * (1 + level * 0.02);
+        double ultraRareChance = plugin.getConfigManager().getUltraRareBase() * qualityMultiplier
+                * (1 + level * 0.02);
 
         if (roll < ultraRareChance / 2) {
             return CustomItems.createAbyssalPearl();
@@ -92,7 +86,7 @@ public class LootManager {
         }
 
         // Rares (more common)
-        double rareChance = RARE_BASE * qualityMultiplier * (1 + level * 0.01);
+        double rareChance = plugin.getConfigManager().getRareBase() * qualityMultiplier * (1 + level * 0.01);
         roll = random.nextDouble();
 
         if (roll < rareChance / 3) {
@@ -104,6 +98,11 @@ public class LootManager {
             return createEnchantedBook("wind_burst");
         }
 
+        if (plugin.getConfigManager().isAnglersRodEnabled()
+                && random.nextDouble() < plugin.getConfigManager().getAnglersRodDropChance() * qualityMultiplier) {
+            return CustomItems.createAnglersRod();
+        }
+
         return null;
     }
 
@@ -112,7 +111,7 @@ public class LootManager {
      */
     private ItemStack rollForBiomeLoot(Biome biome, int level, double qualityMultiplier, World world) {
         double roll = random.nextDouble();
-        double chance = UNCOMMON_BASE * qualityMultiplier;
+        double chance = plugin.getConfigManager().getUncommonBase() * qualityMultiplier;
 
         if (roll > chance)
             return null;
@@ -170,7 +169,9 @@ public class LootManager {
         }
 
         // Nether (if lava fishing is unlocked at level 20+)
-        if (world.getEnvironment() == World.Environment.NETHER && level >= 20) {
+        if (plugin.getConfigManager().isNetherFishingEnabled()
+                && world.getEnvironment() == World.Environment.NETHER
+                && level >= plugin.getConfigManager().getNetherFishingLevel()) {
             return rollNetherLoot(level);
         }
 
@@ -318,7 +319,7 @@ public class LootManager {
      */
     private ItemStack rollForGlobalTreasure(int level, double qualityMultiplier) {
         double roll = random.nextDouble();
-        double chance = COMMON_BASE * qualityMultiplier * 0.5; // Lower base for global
+        double chance = plugin.getConfigManager().getCommonBase() * qualityMultiplier * 0.5; // Lower base for global
 
         if (roll > chance)
             return null;

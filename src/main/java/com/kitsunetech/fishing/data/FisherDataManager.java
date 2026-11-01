@@ -47,7 +47,10 @@ public class FisherDataManager {
         File playerFile = new File(dataFolder, playerId.toString() + ".yml");
 
         if (!playerFile.exists()) {
-            return new FisherData(playerId);
+            return new FisherData(playerId,
+                    plugin.getConfigManager().getBaseFishRequired(),
+                    plugin.getConfigManager().getScalingMultiplier(),
+                    plugin.getConfigManager().getMaxLevel());
         }
 
         FileConfiguration config = YamlConfiguration.loadConfiguration(playerFile);
@@ -59,7 +62,10 @@ public class FisherDataManager {
         double luckBonus = config.getDouble("permanentLuckBonus", 0.0);
         boolean hasLedger = config.getBoolean("hasConsumedLedger", false);
 
-        return new FisherData(playerId, level, totalFish, fishForLevel, speedBonus, luckBonus, hasLedger);
+        return new FisherData(playerId, level, totalFish, fishForLevel, speedBonus, luckBonus, hasLedger,
+                plugin.getConfigManager().getBaseFishRequired(),
+                plugin.getConfigManager().getScalingMultiplier(),
+                plugin.getConfigManager().getMaxLevel());
     }
 
     /**

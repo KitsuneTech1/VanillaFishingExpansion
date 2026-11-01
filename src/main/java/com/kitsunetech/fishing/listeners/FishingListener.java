@@ -3,6 +3,7 @@ package com.kitsunetech.fishing.listeners;
 import com.kitsunetech.fishing.VanillaFishingExpansion;
 import com.kitsunetech.fishing.data.FisherData;
 import com.kitsunetech.fishing.data.FisherDataManager;
+import com.kitsunetech.fishing.items.CustomItems;
 import com.kitsunetech.fishing.loot.LootManager;
 import com.kitsunetech.fishing.systems.EventManager;
 import com.kitsunetech.fishing.systems.FishJournal;
@@ -85,14 +86,14 @@ public class FishingListener implements Listener {
         // Log level-up to server console and notify player
         if (leveledUp) {
             int newLevel = data.getLevel();
-            int fishForNextLevel = FisherData.getFishRequiredForLevel(newLevel);
+            int fishForNextLevel = data.getFishRequiredForLevel();
 
             plugin.getLogger().info("[FISHING LEVEL UP] " + player.getName() +
                     " reached Fishing Level " + newLevel +
                     " (Total fish: " + data.getTotalFishCaught() + ")");
 
             // Notify the player with level up message and fish needed for next level
-            if (newLevel < 100) {
+            if (newLevel < data.getMaxLevel()) {
                 String message = ChatColor.GOLD + "" + ChatColor.BOLD + "⚓ LEVEL UP! " + ChatColor.RESET +
                         ChatColor.YELLOW + "You are now Fishing Level " + ChatColor.AQUA + newLevel +
                         ChatColor.YELLOW + "! Catch " + ChatColor.GREEN + fishForNextLevel +
@@ -101,7 +102,7 @@ public class FishingListener implements Listener {
                 player.sendMessage(message);
             } else {
                 String message = ChatColor.GOLD + "" + ChatColor.BOLD + "⚓ MAX LEVEL! " + ChatColor.RESET +
-                        ChatColor.YELLOW + "You have reached Fishing Level " + ChatColor.AQUA + "100" +
+                        ChatColor.YELLOW + "You have reached Fishing Level " + ChatColor.AQUA + data.getMaxLevel() +
                         ChatColor.YELLOW + "! You are a Master Angler!";
                 player.sendMessage(message);
             }
@@ -174,6 +175,14 @@ public class FishingListener implements Listener {
 
             event.getHook().setMinWaitTime(minWait);
             event.getHook().setMaxWaitTime(maxWait);
+        }
+
+        if (event.getHook() != null && plugin.getConfigManager().isAnglersRodEnabled()
+                && CustomItems.ANGLERS_ROD.equals(CustomItems.getCustomItemId(
+                        event.getPlayer().getInventory().getItemInMainHand()))) {
+            double biteChance = Math.max(0.0, Math.min(1.0,
+                    0.15 + plugin.getConfigManager().getAnglersRodCatchBonus()));
+            event.getHook().setBiteChance(biteChance);
         }
     }
 

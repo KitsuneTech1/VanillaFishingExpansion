@@ -133,14 +133,13 @@ public class FishJournal {
         int totalRequired = BIOME_COLLECTIONS.values().stream().mapToInt(Set::size).sum();
         JournalData journal = getJournal(playerId);
 
-        Set<Material> allCaught = new HashSet<>();
-        journal.biomeCatches.values().forEach(allCaught::addAll);
-
-        Set<Material> allRequired = new HashSet<>();
-        BIOME_COLLECTIONS.values().forEach(allRequired::addAll);
-
-        long completed = allRequired.stream().filter(allCaught::contains).count();
-        return (double) completed / allRequired.size();
+        long completed = BIOME_COLLECTIONS.entrySet().stream()
+                .mapToLong(entry -> entry.getValue().stream()
+                        .filter(material -> journal.biomeCatches
+                                .getOrDefault(entry.getKey(), Collections.emptySet()).contains(material))
+                        .count())
+                .sum();
+        return (double) completed / totalRequired;
     }
 
     /**

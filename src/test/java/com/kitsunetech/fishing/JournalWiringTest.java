@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -36,5 +37,16 @@ class JournalWiringTest extends FishingTestBase {
         plugin.getFishJournal().unloadPlayer(id);
         assertTrue(plugin.getFishJournal().getJournal(id).catches.contains(caught),
                 "the recorded catch persists across a reload");
+    }
+
+    @Test
+    @DisplayName("total progress counts the same material separately in each biome")
+    void totalProgressCountsBiomeEntries() {
+        UUID id = player.getUniqueId();
+
+        plugin.getFishJournal().recordCatch(id, Material.COD, "ocean");
+        plugin.getFishJournal().recordCatch(id, Material.COD, "forest");
+
+        assertEquals(2.0 / 34.0, plugin.getFishJournal().getTotalProgress(id), 0.0001);
     }
 }

@@ -43,10 +43,11 @@ public class FishingStatsCommand implements CommandExecutor {
         sender.sendMessage(ChatColor.AQUA + "═══ " + ChatColor.WHITE + ChatColor.BOLD + "Fishing Stats: " +
                 target.getName() + ChatColor.AQUA + " ═══");
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.GRAY + "  Level: " + ChatColor.GREEN + data.getLevel() + ChatColor.GRAY + "/100");
+        sender.sendMessage(ChatColor.GRAY + "  Level: " + ChatColor.GREEN + data.getLevel() + ChatColor.GRAY + "/" +
+                data.getMaxLevel());
         sender.sendMessage(ChatColor.GRAY + "  Total Fish: " + ChatColor.YELLOW + data.getTotalFishCaught());
         sender.sendMessage(ChatColor.GRAY + "  Progress: " + ChatColor.WHITE + data.getFishForCurrentLevel() +
-                "/" + FisherData.getFishRequiredForLevel(data.getLevel()));
+                "/" + data.getFishRequiredForLevel());
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GRAY + "  Quality Bonus: " + ChatColor.GREEN +
                 String.format("+%.1f%%", (data.getQualityMultiplier() - 1) * 100));
