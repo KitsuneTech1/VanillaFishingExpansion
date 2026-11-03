@@ -6,6 +6,7 @@ Paper plugin with vanilla-friendly fishing overhaul, hidden leveling, and improv
 
 (VanillaFishingExpansion)
 
+[![Build Status](https://github.com/KitsuneTech1/VanillaFishingExpansion/actions/workflows/ci.yml/badge.svg)](https://github.com/KitsuneTech1/VanillaFishingExpansion/actions)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Paper](https://img.shields.io/badge/paper-26.1.2-brightgreen.svg)
 ![Java](https://img.shields.io/badge/java-25-orange.svg)
@@ -25,6 +26,22 @@ Adds a silent fishing progression system on top of normal Minecraft fishing. Pla
 - Angler's Rod: a catchable custom rod with a small catch-rate bonus
 - Nether lava fishing, unlocked at a configurable level
 - Trident and Totem of Undying craftable from shard drops
+
+
+## Architecture & Mechanics
+
+```mermaid
+flowchart TD
+    A[Player Casts Fishing Rod] --> B[PlayerFishEvent Intercepted]
+    B --> C[Evaluate Catch Context: Biome, Weather, Blood Moon]
+    C --> D[Retrieve Player Hidden Fishing Level: 1-100]
+    D --> E{Check Streak & Frenzy}
+    E -->|10+ Streak| F[Fishing Frenzy Multipliers Active]
+    E -->|Normal| G[Standard Roll]
+    F & G --> H[Roll Tier: Common, Uncommon, Rare, Ultra-Rare, Shards]
+    H --> I[Update Fish Journal & Leaderboard Stats]
+    I --> J[Award Catch & Display Silent XP Progression]
+```
 
 ## Commands
 
